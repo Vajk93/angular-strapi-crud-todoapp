@@ -34,7 +34,13 @@ export class ApiService {
 
   updateToDo() {}
 
-  deleteToDo() {}
+  deleteToDo(id: number) {
+    return this.http.delete('http://localhost:1337/api/todos/' + id).pipe(
+      map((res: any) => {
+        return res.data;
+      })
+    );
+  }
 
   public todos: any[] = [];
   public error: any;

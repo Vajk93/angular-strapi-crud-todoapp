@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-to-do-app',
@@ -36,20 +37,41 @@ export class ToDoAppComponent implements OnInit {
   }
 
   public createTodos() {
-    const data = {
-      data: {
-        todo: 'harmadik',
-      },
-    };
-    this.sApi.createToDo(data).subscribe(
+    const todoControl = this.form.get('todo');
+    if (todoControl) {
+      const data = {
+        data: {
+          todo: todoControl.value,
+        },
+      };
+      this.sApi.createToDo(data).subscribe(
+        (res) => {
+          console.log(res);
+          // when created was successful, added to the list:
+          this.getTodos();
+        },
+        (error) => {
+          console.error('There was an error!', error);
+        }
+      );
+    }
+  }
+
+  public deleteTodo(id: number) {
+    this.sApi.deleteToDo(id).subscribe(
       (res) => {
-        console.log(res);
+        console.log('res');
+        this.getTodos();
       },
-      (error) => {
-        console.error('There was an error!', error);
+      (err) => {
+        console.log(err);
       }
     );
   }
 
   public todos: any;
+
+  public form = new FormGroup({
+    todo: new FormControl('', [Validators.required]),
+  });
 }

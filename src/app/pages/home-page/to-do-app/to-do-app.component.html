@@ -2,10 +2,14 @@
   class="w-full h-full min-h-[100vh] bg-blue-400 flex justify-center items-start"
 >
   <div class="max-w-[400px] w-full h-auto mt-10">
-    <input
-      type="text"
-      class="bg-white w-full h-[50px] outline-none rounded-md"
-    />
+    <form [formGroup]="form">
+      <input
+        type="text"
+        formControlName="todo"
+        class="bg-white w-full h-[50px] outline-none rounded-md"
+        id="todo"
+      />
+    </form>
     <div class="flex justify-center">
       <button
         (click)="createTodos()"
@@ -17,7 +21,7 @@
     <div class="w-full rounded-md mt-10">
       <!-- to do top -->
       <div
-        *ngFor="let todo of todos"
+        *ngFor="let todo of todos; let i = index"
         class="w-full mt-1 bg-white h-[50px] outline-none font-bold text-blue-400 text-xl flex justify-between items-center px-5"
       >
         <div>
@@ -30,6 +34,7 @@
             <img src="../../../../assets/images/edit.png" alt="" />
           </button>
           <button
+            (click)="deleteTodo(todo.id)"
             class="bg-blue-500 ml-3 h-[30px] w-[30px] flex justify-center items-center rounded-sm"
           >
             <img src="../../../../assets/images/trash.png" alt="" />
